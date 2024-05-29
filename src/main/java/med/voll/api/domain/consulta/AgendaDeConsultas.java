@@ -1,6 +1,7 @@
 package med.voll.api.domain.consulta;
 
 
+import med.voll.api.domain.consulta.validacoes.ValidadorAgendamentoConsulta;
 import med.voll.api.domain.medico.Medico;
 import med.voll.api.domain.medico.MedicoRepository;
 import med.voll.api.domain.paciente.Paciente;
@@ -25,10 +26,13 @@ public class AgendaDeConsultas {
     @Autowired
     private MedicoRepository medicoRepository;
 
+    @Autowired
+    private List<ValidadorAgendamentoConsulta> validadores;
+
    /* esse parametro em dados tras apenas o id do medico e do paciente, porem precisamos da
     entidade medico/paciente inteiros para fazer o relacionamento na tabela, observe na linha 45.  */
 
-    public void agendar(DadosAgendamentoConsulta dados ) {
+    public DadosDetalhamentoConsulta agendar(DadosAgendamentoConsulta dados ) {
 
         // precisamos verificar primeiro se o id do paciente esta vindo.
         if(!pacienteRepository.existsById(dados.id_paciente())){
@@ -39,6 +43,8 @@ public class AgendaDeConsultas {
         if (dados.id_medico() !=  null &&  !medicoRepository.existsById(dados.id_medico())){
             throw new ValidacaoConsulta("Id do Medico informado não existe no banco de dados.");
         }
+
+        validadores.forEach(v -> v.validar(dados));
 
 
         // por isso precisamos trazer a entidade medico e coloca-la em uma variavel.
@@ -52,6 +58,9 @@ public class AgendaDeConsultas {
 
         // salvando no banco.
         consultaRepository.save(consulta);
+
+        return new DadosDetalhamentoConsulta(consulta);
+
     }
 
     private Medico escolherMedico(DadosAgendamentoConsulta dados) {
