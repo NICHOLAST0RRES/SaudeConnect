@@ -21,6 +21,8 @@ public class MedicoController {
     @Autowired
     private MedicoRepository repository;
 
+
+
     @PostMapping
     @Transactional
     public ResponseEntity cadastrar(@RequestBody @Valid DadosCadastroMedico dados, UriComponentsBuilder uriBuilder) {
@@ -30,6 +32,8 @@ public class MedicoController {
         var uri = uriBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new DadosDetalhamentoMedico(medico));
+
+
     }
 
     @GetMapping

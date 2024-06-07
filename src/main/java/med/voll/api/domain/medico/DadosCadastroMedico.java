@@ -11,18 +11,20 @@ import med.voll.api.domain.endereco.DadosEndereco;
 public record DadosCadastroMedico(
         @NotBlank(message = "ERRO, O NOME DO MEDICO NÃO PODE SER CADASTRADO EM BRANCO")
         String nome,
-        @NotBlank
-        @Email
+        @NotBlank(message = "ERRO, O EMAIL DO MEDICO NÃO PODE SER CADASTRADO EM BRANCO ")
+        @Email(message = "ERRO, EMAIL INVALIDO")
         String email,
 
-        @NotBlank
+        @NotBlank(message = "ERRO, O TELEFONE DO MEDICO NÃO PODE SER CADASTRADO EM BRANCO ")
         String telefone,
-        @NotBlank
+        @NotBlank(message = "ERRO, O CRM DO MEDICO NÃO PODE SER CADASTRADO EM BRANCO ")
         @Pattern(regexp = "\\d{4,6}")
         String crm,
 
-        @NotNull
+        @NotNull (message = "ERRO, A ESPECIALIDADE DO MEDICO NÃO PODE SER CADASTRADO EM BRANCO ")
         Especialidade especialidade,
 
-        @NotNull @Valid DadosEndereco endereco) {
+        @NotNull
+        @Valid
+        DadosEndereco endereco) {
 }

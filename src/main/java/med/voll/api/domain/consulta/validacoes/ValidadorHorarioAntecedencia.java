@@ -8,6 +8,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 
+
+// classe meia hora antecedencia
 @Component
 public class ValidadorHorarioAntecedencia implements ValidadorAgendamentoConsulta{
 
